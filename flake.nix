@@ -22,7 +22,5 @@
 
     };
 
-    defaultTemplate = self.templates.trivial;
-
   };
 }
