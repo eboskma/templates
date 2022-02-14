@@ -20,6 +20,10 @@
         description = "A flake for Rust projects";
       };
 
+      meson = {
+        path = ./meson;
+      };
+
     };
 
   };

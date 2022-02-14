@@ -30,13 +30,8 @@
         packages = { };
 
         devShell = with pkgs; mkShell {
-          buildInputs = [ erlang elixir nodejs-17_x postgresql ] ++ lib.optionals stdenv.isLinux [ libnotify inotify-tools ];
-          nativeBuildInputs = [ (with nodePackages; pnpm) startdb stopdb ];
-
-          shellHook = ''
-            export PGDATA="''${PWD}/db/data"
-            export PGHOST="''${PWD}/db/run"
-          '';
+          buildInputs = [ erlang elixir postgresql ] ++ lib.optionals stdenv.isLinux [ libnotify inotify-tools ];
+          nativeBuildInputs = [ (with nodePackages; pnpm) startdb stopdb nodejs-17_x elixir_ls ];
         };
       }
     );

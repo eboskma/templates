@@ -1,5 +1,5 @@
 {
-  description = "A basic flake for elixir development";
+  description = "A basic flake for meson projects";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -14,13 +14,13 @@
     utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
+        nativeBuildInputs = with pkgs; [ meson ninja clang-tools gcc ];
       in
       {
         packages = { };
 
         devShell = with pkgs; mkShell {
-          buildInputs = [ erlang elixir libnotify inotify-tools ];
-          nativeBuildInputs = [ elixir_ls ];
+          inherit nativeBuildInputs;
         };
 
       });
