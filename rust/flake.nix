@@ -24,9 +24,9 @@
 
         # Use one of these methods to pull in a Rust toolchain
         # Use the default stable Rust 
-        # rustToolchain = pkgs.rust-bin.stable.default;
+        # rustToolchain = pkgs.rust-bin.stable.stable.default;
         # Modify the toolchain to add components, targets, etc.
-        rustToolchain = pkgs.rust-bin.stable.default.override {
+        rustToolchain = pkgs.rust-bin.stable.latest.default.override {
           extensions = [ "rustfmt" "clippy" ];
           targets = [ "thumbv7m-none-eabi" ];
         };
