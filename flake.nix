@@ -1,7 +1,7 @@
 {
   description = "A collection of flake templates";
 
-  outputs = { self }: {
+  outputs = { self, nixpkgs }: {
 
     templates = {
 
@@ -22,9 +22,12 @@
 
       meson = {
         path = ./meson;
+        description = "A basic flake for projects using meson";
       };
 
     };
+
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
 
   };
 }

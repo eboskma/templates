@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    utils.url = "github:numtide/flake-utils";
+    flake-utils.url = "github:numtide/flake-utils";
     naersk = {
       url = "github:nmattia/naersk/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -11,12 +11,12 @@
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "utils";
+      inputs.flake-utils.follows = "flake-utils";
     };
   };
 
-  outputs = { self, nixpkgs, utils, naersk, rust-overlay }:
-    utils.lib.eachDefaultSystem (system:
+  outputs = { self, nixpkgs, flake-utils, naersk, rust-overlay }:
+    flake-utils.lib.eachDefaultSystem (system:
       let
         overlays = [ (import rust-overlay) ];
         pkgs = import nixpkgs { inherit system overlays; };
@@ -40,24 +40,26 @@
         nativeBuildInputs = [
         ];
       in
-      rec {
+      {
+        formatter = pkgs.nixpkgs-fmt;
+
         packages.hello-ferris = naersk-lib.buildPackage
           {
             inherit buildInputs nativeBuildInputs;
             root = ./.;
           };
-        defaultPackage = packages.hello-ferris;
+        packages.default = self.packages.${system}.hello-ferris;
 
-        apps.hello-ferris = utils.lib.mkApp {
-          drv = self.defaultPackage."${system}";
+        apps.hello-ferris = flake-utils.lib.mkApp {
+          drv = self.packages."${system}".default;
         };
-        defaultApp = apps.hello-ferris;
+        apps.default = self.apps.${system}.hello-ferris;
 
         overlays = final: prev: {
-          hello-ferris = packages.hello-ferris;
+          hello-ferris = self.packages.${system}.hello-ferris;
         };
 
-        devShell = with pkgs; mkShell {
+        devShells.default = with pkgs; mkShell {
           inherit buildInputs;
           nativeBuildInputs = [ cargo-edit cargo-diet cargo-feature cargo-outdated pre-commit rust-analyzer ] ++ nativeBuildInputs;
         };
