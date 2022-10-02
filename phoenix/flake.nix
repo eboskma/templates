@@ -1,6 +1,6 @@
 {
   description = "A flake for a Phoenix web application";
-  
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
@@ -16,7 +16,7 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, devshell, ... }@inputs:
-    utils.lib.eachDefaultSystem (system:
+    flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
           inherit system;
