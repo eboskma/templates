@@ -1,0 +1,10 @@
+[devshell]
+packages = [
+  "sbcl",
+  "rlwrap",
+]
+
+[[commands]]
+name = "rsbcl"
+command = "rlwrap sbcl"
+help = "Run sbcl with rlwrap"

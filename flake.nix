@@ -25,6 +25,11 @@
         description = "A basic flake for projects using meson";
       };
 
+      lisp = {
+        path = ./lisp;
+        description = "A flake for sbcl";
+      };
+
     };
 
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
