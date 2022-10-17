@@ -22,6 +22,29 @@
           inherit system;
           overlays = [ devshell.overlay ];
         };
+        tailwindcss =
+          let
+            version = "3.1.8";
+          in
+          pkgs.stdenv.mkDerivation {
+            pname = "tailwindcss";
+            inherit version;
+
+            src = builtins.fetchurl {
+              url = "https://github.com/tailwindlabs/tailwindcss/releases/download/v${version}/tailwindcss-linux-x64";
+              sha256 = "0dzk9lm61s78lvcm5bhmi0qmfy5dssac1yrxysf5b99nayna0xzv";
+            };
+
+            dontUnpack = true;
+            dontPatch = true;
+            dontConfigure = true;
+            dontBuild = true;
+            dontFixup = true;
+
+            installPhase = ''
+              install -Dm0755 $src $out/bin/tailwindcss
+            '';
+          };
       in
       {
         formatter = pkgs.nixpkgs-fmt;
@@ -32,6 +55,25 @@
           pkgs.devshell.mkShell {
             imports = [
               (pkgs.devshell.importTOML ./devshell.toml)
+            ];
+
+            env = [
+              {
+                name = "ESBUILD_PATH";
+                value = "${pkgs.esbuild}/bin/esbuild";
+              }
+              {
+                name = "ESBUILD_VERSION";
+                value = pkgs.esbuild.version;
+              }
+              {
+                name = "TAILWIND_PATH";
+                value = "${tailwindcss}/bin/tailwindcss";
+              }
+              {
+                name = "TAILWIND_VERSION";
+                value = tailwindcss.version;
+              }
             ];
           };
       });
