@@ -5,6 +5,11 @@
 
     templates = {
 
+      base = {
+        path = ./base;
+        description = "An empty flake with a devShell, useful as a starting point.";
+      };
+
       elixir = {
         path = ./elixir;
         description = "A basic flake for elixir development";
