@@ -19,7 +19,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, naersk, rust-overlay }:
+  outputs = { self, nixpkgs, flake-utils, naersk, rust-overlay, ... }@inputs:
     flake-utils.lib.eachDefaultSystem (system:
       let
         overlays = [ (import rust-overlay) ];
