@@ -35,6 +35,11 @@
         description = "A flake for sbcl";
       };
 
+      racket = {
+        path = ./racket;
+        description = "A flake with a Racket devshell";
+      };
+
     };
 
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
