@@ -1,0 +1,60 @@
+[devshell]
+packages = [
+  "erlang",
+  "libnotify",
+  "inotify-tools",
+  "gnumake",
+  "gcc",
+  "taplo",
+]
+
+[[env]]
+name = "HEX_HOME"
+eval = "${PWD}/.nix/hex"
+
+[[env]]
+name = "MIX_HOME"
+eval = "${PWD}/.nix/mix"
+
+[[env]]
+name = "PATH"
+prefix = "${MIX_HOME}/escripts"
+
+[[env]]
+name = "ERL_AFLAGS"
+value = "-kernel shell_history enabled"
+
+[[env]]
+name = "LIVEBOOK_HOME"
+eval = "${PWD}"
+
+[[env]]
+name = "LIVEBOOK_TOKEN_ENABLED"
+value = "false"
+
+[[env]]
+name = "LIVEBOOK_SHUTDOWN_ENABLED"
+value = "true"
+
+# [[env]]
+# name = "LIVEBOOK_PORT"
+# value = "9090"
+
+# [[env]]
+# name = "LIVEBOOK_IFRAME_PORT"
+# value = "9091"
+
+[[commands]]
+name = "mix"
+package = "elixir_1_14"
+help = "Run Elixir mix tasks"
+
+[[commands]]
+name = "livebook"
+command = "livebook $@"
+help = "Run livebook commands. For example, to start the server, run `livebook server`"
+
+[[commands]]
+name = "livebook-install"
+command = "do-livebook-install"
+help = "Install livebook"

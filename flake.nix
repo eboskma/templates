@@ -40,6 +40,11 @@
         description = "A flake with a Racket devshell";
       };
 
+      livebook = {
+        path = ./livebook;
+        description = "A flake to run Elixir Livebook";
+      };
+
     };
 
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
