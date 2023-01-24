@@ -10,7 +10,8 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-      in {
+      in
+      {
 
         formatter = pkgs.nixpkgs-fmt;
 
@@ -18,5 +19,5 @@
           nativeBuildInputs = [ racket ];
         };
 
-    });
+      });
 }

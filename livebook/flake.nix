@@ -37,7 +37,8 @@
         devShells.default =
           let
             elixir_ls = pkgs.elixir_ls.override { elixir = pkgs.elixir_1_14; };
-          in pkgs.devshell.mkShell {
+          in
+          pkgs.devshell.mkShell {
             imports = [
               (pkgs.devshell.importTOML ./devshell.toml)
             ];
