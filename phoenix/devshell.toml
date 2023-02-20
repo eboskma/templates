@@ -30,19 +30,19 @@ prefix = "${MIX_HOME}/escripts"
 name = "ERL_AFLAGS"
 value = "-kernel shell_history enabled"
 
+[[env]]
+name = "HEX_HOME"
+eval = "${PWD}/.nix/hex"
+
+[[env]]
+name = "MIX_HOME"
+eval = "${PWD}/.nix/mix"
+
+[[env]]
+name = "PATH"
+prefix = "${MIX_HOME}/escripts"
+
 [[commands]]
 name = "mix"
 package = "elixir"
 help = "mix"
-
-[[commands]]
-name = "startdb"
-category = "db"
-command = "pg_ctl start"
-help = "Start postgres"
-
-[[commands]]
-name = "stopdb"
-category = "db"
-command = "pg_ctl stop"
-help = "Stop postgres"
