@@ -25,7 +25,7 @@
           let
             tailwindcss =
               let
-                version = "3.1.8";
+                version = "3.3.0";
               in
               pkgs.stdenv.mkDerivation {
                 pname = "tailwindcss";
@@ -33,7 +33,7 @@
 
                 src = builtins.fetchurl {
                   url = "https://github.com/tailwindlabs/tailwindcss/releases/download/v${version}/tailwindcss-linux-x64";
-                  sha256 = "0dzk9lm61s78lvcm5bhmi0qmfy5dssac1yrxysf5b99nayna0xzv";
+                  sha256 = "17mpkm83jwxzspimhgv9frlmqrzv7k0a384c2086gnvl4m3p7kqf";
                 };
 
                 dontUnpack = true;
