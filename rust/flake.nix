@@ -37,7 +37,6 @@
         # Modify the toolchain to add components, targets, etc.n
         rustToolchain = pkgs.rust-bin.stable.latest.default.override {
           extensions = [ "rustfmt" "clippy" ];
-          targets = [ "thumbv7m-none-eabi" ];
         };
         # Use a rust-toolchain.toml to configure the toolchain
         # rustToolchain =
