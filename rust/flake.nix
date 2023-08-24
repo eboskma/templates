@@ -22,7 +22,9 @@
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
 
-      perSystem = { self', pkgs, system, ... }:
+      imports = [ pre-commit-hooks.flakeModule ];
+
+      perSystem = { config, self', pkgs, system, ... }:
         let
           overlays = [ (import rust-overlay) ];
 
@@ -77,8 +79,11 @@
               inherit src pname version;
             };
 
-            pre-commit-check = pre-commit-hooks.lib.${system}.run {
-              src = ./.;
+          };
+          pre-commit = {
+            check.enable = true;
+            devShell = self'.devShells.default;
+            settings = {
               hooks = {
                 nixpkgs-fmt.enable = true;
                 statix.enable = true;
@@ -102,6 +107,9 @@
             name = "hello-ferris";
             # inputsFrom = [ self.packages.${system}.hello-ferris ];
             packages = [ rustToolchain cargo-edit cargo-diet cargo-feature cargo-outdated pre-commit rust-analyzer ];
+            shellHook = ''
+              ${config.pre-commit.installationScript}
+            '';
           };
 
         };
