@@ -19,14 +19,12 @@
         "x86_64-linux"
       ];
 
-      imports = [ ./devshell.nix ];
+      imports = [
+        devshell.flakeModule
+        ./devshell.nix
+      ];
 
       perSystem = { pkgs, system, ... }: {
-
-        _module.args.pkgs = import nixpkgs {
-          inherit system;
-          overlays = [ devshell.overlays.default ];
-        };
 
         formatter = pkgs.nixpkgs-fmt;
 
