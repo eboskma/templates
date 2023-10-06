@@ -18,7 +18,7 @@
       crane-lib = (inputs.crane.mkLib pkgs).overrideToolchain rustToolchain;
       pname = "hello-ferris";
       version = "0.1.0";
-      src = crane-lib.cleanCargoSource ./.;
+      src = crane-lib.cleanCargoSource ./..;
       buildInputs = with pkgs; [
       ] ++ lib.optionals pkgs.stdenv.isDarwin [ pkgs.libiconv ];
 
