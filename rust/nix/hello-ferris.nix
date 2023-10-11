@@ -81,7 +81,7 @@
 
       devShells.hello-ferris = with pkgs; mkShell {
         name = "hello-ferris";
-        # inputsFrom = [ self.packages.${system}.hello-ferris ];
+        # inputsFrom = [ self'.packages.hello-ferris ];
         packages = [ rustToolchain cargo-edit cargo-diet cargo-feature cargo-outdated pre-commit rust-analyzer ];
         shellHook = ''
           ${config.pre-commit.installationScript}
