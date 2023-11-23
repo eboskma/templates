@@ -3,12 +3,11 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-parts.url = "github:hercules-ci/flake-parts";
 
     devshell = {
       url = "github:numtide/devshell";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
     };
 
     flake-compat = {
@@ -17,19 +16,31 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, devshell, ... }@inputs:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [ devshell.overlay ];
-        };
-      in
-      {
+  outputs = { self, nixpkgs, flake-parts, devshell, ... }@inputs:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "x86_64-linux" ];
+
+      imports = [
+        devshell.flakeModule
+      ];
+
+      perSystem = { pkgs, ... }: {
         formatter = pkgs.nixpkgs-fmt;
 
-        devShells.default = pkgs.devshell.mkShell {
-          imports = [ (pkgs.devshell.importTOML ./devshell.toml) ];
+        devshells.default = {
+          packages = with pkgs; [
+            sbcl
+            rlwrap
+          ];
+
+          commands = [
+            {
+              name = "rsbcl";
+              command = "${pkgs.rlwrap}/bin/rlwrap ${pkgs.sbcl}/bin/sbcl";
+              help = "Run sbcl with readline wrapper";
+            }
+          ];
         };
-      });
+      };
+    };
 }
