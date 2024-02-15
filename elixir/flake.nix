@@ -8,9 +8,18 @@
       url = "github:numtide/devshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    next-ls = {
+      url = "github:elixir-tools/next-ls";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
-  outputs = { self, nixpkgs, flake-parts, devshell, ... }@inputs:
+  outputs = { flake-parts, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
         "aarch64-linux"
@@ -20,13 +29,31 @@
       ];
 
       imports = [
-        devshell.flakeModule
+        inputs.devshell.flakeModule
+        inputs.pre-commit-hooks.flakeModule
+
         ./devshell.nix
       ];
 
-      perSystem = { pkgs, system, ... }: {
+      perSystem = { pkgs, system, lib, ... }: {
 
-        formatter = pkgs.nixpkgs-fmt;
+        formatter = pkgs.nixfmt-rfc-style;
+
+        pre-commit = {
+          settings = {
+            hooks = {
+              nil.enable = true;
+              nixfmt.enable = true;
+              deadnix.enable = true;
+              mix-format.enable = true;
+              # credo.enable = true;
+              # dialyzer.enable = true;
+            };
+            tools = {
+              nixfmt = lib.mkForce pkgs.nixfmt-rfc-style;
+            };
+          };
+        };
 
         packages = { };
       };

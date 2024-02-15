@@ -5,7 +5,8 @@
         erlang
         libnotify
         inotify-tools
-        elixir_ls
+
+        inputs'.next-ls.packages.default
       ];
 
       env = [
