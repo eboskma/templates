@@ -10,18 +10,28 @@
     };
   };
 
-  outputs = { self, nixpkgs, utils, flake-compat }:
-    utils.lib.eachDefaultSystem (system:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      utils,
+      flake-compat,
+    }:
+    utils.lib.eachDefaultSystem (
+      system:
       let
         pkgs = import nixpkgs { inherit system; };
-        nativeBuildInputs = with pkgs; [ meson ninja clang-tools gcc ];
+        nativeBuildInputs = with pkgs; [
+          meson
+          ninja
+          clang-tools
+          gcc
+        ];
       in
       {
         packages = { };
 
-        devShell = with pkgs; mkShell {
-          inherit nativeBuildInputs;
-        };
-
-      });
+        devShell = with pkgs; mkShell { inherit nativeBuildInputs; };
+      }
+    );
 }

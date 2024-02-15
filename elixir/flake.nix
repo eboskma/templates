@@ -16,10 +16,10 @@
       url = "github:elixir-tools/next-ls";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
   };
 
-  outputs = { flake-parts, ... }@inputs:
+  outputs =
+    { flake-parts, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
         "aarch64-linux"
@@ -35,27 +35,34 @@
         ./devshell.nix
       ];
 
-      perSystem = { pkgs, system, lib, ... }: {
+      perSystem =
+        {
+          pkgs,
+          system,
+          lib,
+          ...
+        }:
+        {
 
-        formatter = pkgs.nixfmt-rfc-style;
+          formatter = pkgs.nixfmt-rfc-style;
 
-        pre-commit = {
-          settings = {
-            hooks = {
-              nil.enable = true;
-              nixfmt.enable = true;
-              deadnix.enable = true;
-              mix-format.enable = true;
-              # credo.enable = true;
-              # dialyzer.enable = true;
-            };
-            tools = {
-              nixfmt = lib.mkForce pkgs.nixfmt-rfc-style;
+          pre-commit = {
+            settings = {
+              hooks = {
+                nil.enable = true;
+                nixfmt.enable = true;
+                deadnix.enable = true;
+                mix-format.enable = true;
+                # credo.enable = true;
+                # dialyzer.enable = true;
+              };
+              tools = {
+                nixfmt = lib.mkForce pkgs.nixfmt-rfc-style;
+              };
             };
           };
-        };
 
-        packages = { };
-      };
+          packages = { };
+        };
     };
 }

@@ -17,7 +17,16 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-parts, rust-overlay, pre-commit-hooks, crane, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-parts,
+      rust-overlay,
+      pre-commit-hooks,
+      crane,
+      ...
+    }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
 
@@ -27,10 +36,17 @@
         ./nix/hello-ferris.nix
       ];
 
-      perSystem = { config, self', pkgs, system, ... }: {
+      perSystem =
+        {
+          config,
+          self',
+          pkgs,
+          system,
+          ...
+        }:
+        {
 
-        devShells.default = self'.devShells.hello-ferris;
-
-      };
+          devShells.default = self'.devShells.hello-ferris;
+        };
     };
 }

@@ -1,7 +1,8 @@
 {
   description = "A collection of flake templates";
 
-  outputs = { self, nixpkgs }:
+  outputs =
+    { self, nixpkgs }:
     let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
     in
@@ -48,14 +49,15 @@
           path = ./livebook;
           description = "A flake to run Elixir Livebook";
         };
-
       };
 
-      formatter.x86_64-linux = pkgs.nixpkgs-fmt;
+      formatter.x86_64-linux = pkgs.nixfmt-rfc-style;
 
-      devShells.x86_64-linux.default = with pkgs; mkShell {
-        name = "flake-templates";
-        packages = [ taplo ];
-      };
+      devShells.x86_64-linux.default =
+        with pkgs;
+        mkShell {
+          name = "flake-templates";
+          packages = [ taplo ];
+        };
     };
 }
