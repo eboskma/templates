@@ -49,6 +49,11 @@
           path = ./livebook;
           description = "A flake to run Elixir Livebook";
         };
+
+        zig = {
+          path = ./zig;
+          description = "A flake to develop your next zig app";
+        };
       };
 
       formatter.x86_64-linux = pkgs.nixfmt-rfc-style;
