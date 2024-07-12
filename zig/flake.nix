@@ -33,7 +33,12 @@
       ];
 
       perSystem =
-        { pkgs, ... }:
+        {
+          pkgs,
+          config,
+          system,
+          ...
+        }:
         {
           _module.args.pkgs = import inputs.nixpkgs {
             inherit system;
