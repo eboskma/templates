@@ -8,12 +8,8 @@
       url = "github:numtide/devshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    next-ls = {
-      url = "github:elixir-tools/next-ls";
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -30,7 +26,7 @@
 
       imports = [
         inputs.devshell.flakeModule
-        inputs.pre-commit-hooks.flakeModule
+        inputs.git-hooks.flakeModule
 
         ./devshell.nix
       ];
@@ -50,14 +46,11 @@
             settings = {
               hooks = {
                 nil.enable = true;
-                nixfmt.enable = true;
+                nixfmt-rfc-style.enable = true;
                 deadnix.enable = true;
                 mix-format.enable = true;
                 # credo.enable = true;
                 # dialyzer.enable = true;
-              };
-              tools = {
-                nixfmt = lib.mkForce pkgs.nixfmt-rfc-style;
               };
             };
           };

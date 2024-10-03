@@ -8,6 +8,10 @@
       url = "github:numtide/devshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -30,33 +34,21 @@
 
       perSystem =
         { pkgs, ... }:
-        let
-          tailwindcss =
-            let
-              version = "3.3.0";
-            in
-            pkgs.stdenv.mkDerivation {
-              pname = "tailwindcss";
-              inherit version;
-
-              src = builtins.fetchurl {
-                url = "https://github.com/tailwindlabs/tailwindcss/releases/download/v${version}/tailwindcss-linux-x64";
-                sha256 = "17mpkm83jwxzspimhgv9frlmqrzv7k0a384c2086gnvl4m3p7kqf";
-              };
-
-              dontUnpack = true;
-              dontPatch = true;
-              dontConfigure = true;
-              dontBuild = true;
-              dontFixup = true;
-
-              installPhase = ''
-                install -Dm0755 $src $out/bin/tailwindcss
-              '';
-            };
-        in
         {
           formatter = pkgs.nixpkgs-fmt;
+
+          pre-commit = {
+            settings = {
+              hooks = {
+                nil.enable = true;
+                nixfmt-rfc-style.enable = true;
+                deadnix.enable = true;
+                mix-format.enable = true;
+                # credo.enable = true;
+                # dialyzer.enable = true;
+              };
+            };
+          };
 
           packages = { };
 
@@ -64,11 +56,12 @@
             imports = [ "${inputs.devshell}/extra/services/postgres.nix" ];
 
             packages = with pkgs; [
+              elixir
               erlang
+              lexical
               libnotify
               inotify-tools
               nodejs
-              elixir_ls
               gnumake
               gcc
             ];
@@ -105,11 +98,11 @@
               }
               {
                 name = "TAILWIND_PATH";
-                value = "${tailwindcss}/bin/tailwindcss";
+                value = "${pkgs.tailwindcss}/bin/tailwindcss";
               }
               {
                 name = "TAILWIND_VERSION";
-                value = tailwindcss.version;
+                value = pkgs.tailwindcss.version;
               }
             ];
 

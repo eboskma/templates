@@ -4,11 +4,12 @@
     {
       devshells.default = {
         packages = with pkgs; [
+          elixir
           erlang
+          lexical
           libnotify
           inotify-tools
 
-          inputs'.next-ls.packages.default
         ];
 
         env = [
@@ -33,7 +34,7 @@
         commands = [
           {
             name = "mix";
-            package = "elixir";
+            package = pkgs.elixir;
             help = "mix";
           }
         ];
