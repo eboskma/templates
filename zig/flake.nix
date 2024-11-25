@@ -14,9 +14,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    zig = {
+    zig-overlay = {
       url = "github:mitchellh/zig-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    zls = {
+      url = "github:zigtools/zls";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.zig-overlay.follows = "zig-overlay";
     };
   };
 
@@ -28,12 +34,11 @@
       imports = [
         inputs.git-hooks.flakeModule
         inputs.treefmt-nix.flakeModule
-
-        ./nix/zls
       ];
 
       perSystem =
         {
+          inputs',
           pkgs,
           config,
           system,
@@ -42,7 +47,7 @@
         {
           _module.args.pkgs = import inputs.nixpkgs {
             inherit system;
-            overlays = [ inputs.zig.overlays.default ];
+            overlays = [ inputs.zig-overlay.overlays.default ];
           };
 
           treefmt = {
@@ -63,8 +68,8 @@
               name = "zig-app";
 
               packages = [
-                zigpkgs.default
-                config.packages.zls
+                zigpkgs.master
+                inputs'.zls.packages.zls
               ];
             };
         };
