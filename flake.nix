@@ -20,6 +20,11 @@
           description = "A basic flake for elixir development";
         };
 
+        gleam = {
+          path = ./gleam;
+          description = "A flake to build Gleam applications";
+        };
+
         phoenix = {
           path = ./phoenix;
           description = "A flake for developing Phoenix projects";
