@@ -31,14 +31,11 @@
       perSystem =
         { pkgs, config, ... }:
         {
-          formatter = pkgs.nixfmt-rfc-style;
-
           pre-commit = {
             settings = {
               hooks = {
-                nixfmt.enable = true;
+                nixfmt-rfc-style.enable = true;
                 deadnix.enable = true;
-                gleam.enable = true;
                 taplo.enable = true;
               };
             };
@@ -65,7 +62,7 @@
               ];
 
               shellHook = ''
-                ${config.pre-commit.pre-commit-check.shellHook}
+                ${config.pre-commit.installationScript}
               '';
             };
         };
