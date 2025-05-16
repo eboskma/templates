@@ -13,17 +13,6 @@
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    zig-overlay = {
-      url = "github:mitchellh/zig-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    zls = {
-      url = "github:zigtools/zls";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.zig-overlay.follows = "zig-overlay";
-    };
   };
 
   outputs =
@@ -38,18 +27,10 @@
 
       perSystem =
         {
-          inputs',
           pkgs,
-          config,
-          system,
           ...
         }:
         {
-          _module.args.pkgs = import inputs.nixpkgs {
-            inherit system;
-            overlays = [ inputs.zig-overlay.overlays.default ];
-          };
-
           treefmt = {
             projectRootFile = "flake.lock";
 
@@ -68,8 +49,8 @@
               name = "zig-app";
 
               packages = [
-                zigpkgs.master
-                inputs'.zls.packages.zls
+                zig
+                zls
               ];
             };
         };
