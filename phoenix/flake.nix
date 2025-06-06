@@ -12,18 +12,20 @@
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      flake-parts,
-      devshell,
-      ...
-    }@inputs:
-    flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [ devshell.flakeModule ];
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [
+        inputs.devshell.flakeModule
+        inputs.git-hooks.flakeModule
+        inputs.treefmt-nix.flakeModule
+      ];
 
       systems = [
         "x86_64-linux"
@@ -50,6 +52,16 @@
             };
           };
 
+          treefmt = {
+            rootProjectFile = "flake.lock";
+
+            programs = {
+              nixfmt.enable = true;
+              deadnix.enable = true;
+              mix-format.enable = true;
+            };
+          };
+
           packages = { };
 
           devshells.default = {
@@ -58,7 +70,7 @@
             packages = with pkgs; [
               elixir
               erlang
-              lexical
+              next-ls
               libnotify
               inotify-tools
               nodejs
