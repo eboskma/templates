@@ -2,7 +2,7 @@
   description = "A collection of flake templates";
 
   outputs =
-    { self, nixpkgs }:
+    { nixpkgs }:
     let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
     in
@@ -23,6 +23,11 @@
         gleam = {
           path = ./gleam;
           description = "A flake to build Gleam applications";
+        };
+
+        go = {
+          path = ./go;
+          description = "A flake for developing Go software";
         };
 
         phoenix = {
