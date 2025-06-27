@@ -44,7 +44,7 @@
           pre-commit = {
             settings.hooks = {
               deadnix.enable = true;
-              nixfmt.enable = true;
+              nixfmt-rfc-style.enable = true;
               statix.enable = true;
 
               gofmt.enable = true;
