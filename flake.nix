@@ -2,7 +2,7 @@
   description = "A collection of flake templates";
 
   outputs =
-    { nixpkgs }:
+    { nixpkgs, ... }:
     let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
     in
