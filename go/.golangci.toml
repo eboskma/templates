@@ -1,0 +1,20 @@
+version = "2"
+[linters]
+default = "none"
+enable = [
+  "govet",
+  "predeclared",
+  "revive",
+  "staticcheck"
+]
+
+[linters.settings.govet]
+enable-all = true
+
+[linters.settings.govet.settings.shadow]
+strict = true
+
+[formatters]
+enable = ["gofumpt", "goimports", "golines"]
+
+

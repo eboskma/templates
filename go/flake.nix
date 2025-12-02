@@ -60,6 +60,10 @@
                 gopls
                 gotools
                 go-tools
+
+                golangci-lint
+                gofumpt
+                golines
               ];
 
               shellHook = ''
