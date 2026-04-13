@@ -66,7 +66,7 @@
         };
       };
 
-      formatter.x86_64-linux = pkgs.nixfmt-rfc-style;
+      formatter.x86_64-linux = pkgs.nixfmt;
 
       devShells.x86_64-linux.default =
         with pkgs;

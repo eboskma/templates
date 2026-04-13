@@ -40,13 +40,13 @@
         }:
         {
 
-          formatter = pkgs.nixfmt-rfc-style;
+          formatter = pkgs.nixfmt;
 
           pre-commit = {
             settings = {
               hooks = {
                 nil.enable = true;
-                nixfmt-rfc-style.enable = true;
+                nixfmt.enable = true;
                 deadnix.enable = true;
                 mix-format.enable = true;
                 # credo.enable = true;
